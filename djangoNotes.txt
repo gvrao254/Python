@@ -87,6 +87,24 @@ Enter 2nd number <input type="text" name="num2" /> <br />
 <input type="submit" />
 </form>
 
+---------Create the static file
+1. Search travello Colorlib and download the template
+2. Copy index.html file in the templates folder and rest of the depending folders under static folder(under your project)
+3. Create new app  python manage.py startapp travello
+4. Create urls.py 
+5. In project settings.py file add the following code
+   STATIC_URL = '/static/'
+   STATICFILES_DIRS=[
+    os.path.join(BASE_DIR,'static')
+   ]
+   STATIC_ROOT=os.path.join(BASE_DIR,'assets')
+6. create a folder called assets in the project directory
+7. run the command python manage.py collectstatic to move all the static files in to assets
+8. in index.html add the following code on the top
+   {% load static %}
+9. change the reference in using "{% static '.....' %}"
+10. run the project
+
 
 
 
