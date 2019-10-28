@@ -1,0 +1,92 @@
+---MVT----
+Django is fast
+Components
+Security
+Scalability
+
+
+pip install django
+python -m django --version
+django-admin
+django-admin startproject mysite
+ python .\manage.py runserver
+python manage.py startapp calc
+
+----Create Html Page
+1. Create a templates directory and add a Html page (home.html) Page
+2. Then Goto Settings.py file of the project and under Templates add the 'DIRS': [os.path.join(BASE_DIR,'templates')],
+3. Create an app using command  python manage.py startapp Login
+4. It will create a directory in the project called Login, now create a urls.py file and add the following code
+   from django.contrib import admin
+   from django.urls import path
+   from . import views
+
+   urlpatterns = [
+    path('', views.index,name='index'),
+    ]
+5. Add the following code in the Project urls.py
+   urlpatterns = [
+    path('' , include('Login.urls')),
+    path('admin/', admin.site.urls), 
+]
+
+6.In views.py add the following code
+   from django.shortcuts import render
+   from django.http import HttpResponse
+   def index(request):
+    #return HttpResponse("<h1>Hello Django</h1><br />Username <input type='text' /><br />Password<input type='text' />")
+     return render(request,'home.html')
+----Pass a variable
+1. In views.py file return pass the variable in dicitonary format
+ return render(request,'home.html',{'name':'Raman'})
+2. In home.html call this variable using Jinja2.
+   <h1>Hello {{ name }}
+----Django Template Language
+1. Create Base.html file in templates
+   <body bgcolor="cyan">
+     {% block content %}
+     {% endblock %}
+   </body>
+2. Go to home.html file and write the following code
+   {% extends 'Base.html' %}
+   {% block content %}
+   <body>
+    <h1>This is  home page {{ name }}</h1>
+   </body>
+   {% endblock %}
+------Add 2 numbers
+1. in home.html write the following code
+   <form action="add">
+   Enter 1st number <input type="text" name="num1" /> <br />
+   Enter 2nd number <input type="text" name="num2" /> <br />
+   <input type="submit" />
+  </form>
+2. in urls.py add the following code
+   path('add', views.result,name='result')
+3. In views.py add the following code
+   def result(request):
+  val1=request.GET['num1']
+  val2=request.GET['num2']
+  val3=val1+val2
+  return render(request,'results.html',{'result':val3})
+4. Create a html page results.html and add the following code
+   Results...
+{{ result }}
+-----GET and POST Method
+1. add the following code for views.py
+def result(request):
+  val1=request.POST['num1']
+  val2=request.POST['num2']
+  val3=val1+val2
+  return render(request,'results.html',{'result':val3})
+2. Add following code in home.html
+<form action="add" method="post">
+    {% csrf_token %}
+Enter 1st number <input type="text" name="num1" /> <br />
+Enter 2nd number <input type="text" name="num2" /> <br />
+<input type="submit" />
+</form>
+
+
+
+
